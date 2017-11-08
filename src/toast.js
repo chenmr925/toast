@@ -1,12 +1,29 @@
-;(function(w,d,$){
-	$.extend({
-		toast:function(option){
+;(function($){
+    $.extend({
+        /**
+         *名称：toast
+         *
+         **/
+        /*使用实例
+        $.toast(提示信息);
+        或
+        $.toast({
+            background:'rgba(0,0,0,0.8)',	//背景
+            color:'#fff',					//字体颜色
+            position:'bottom',				//位置，取值：'bottom'(默认),'middle','top'
+            speed:2000,						//显示时间ms
+            msg:"提示信息",                  //提示信息，取值为string或者html
+            style:{}                        //样式文件
+            callback:function(){}           //提示框消失后回调
+        });
+        */
+        toast:function(option, cb){
 			var defaults = {
 				background:'rgba(0,0,0,0.8)',	//背景
 				color:'#fff',					//字体颜色
 				position:'bottom',				//位置，取值：'bottom'(默认),'middle','top'
 				speed:2000						//显示时间ms
-			}
+			};
 			var options = null;
 			//处理数据
 			if(typeof option === 'string'){
@@ -29,19 +46,26 @@
 			}
 			//设置toast样式
 			var $toast = $('.toast');
-			$toast.css({
+            var basicCssRules = {
 				'background':options.background,
 				'color':options.color,
 				'top':top,
 			    'padding': '5px 15px',
 			    'border-radius': '5px',
-			    'z-index': '1000',
+			    'z-index': '10000',
 			    'max-width': '70%',
 				'position': 'absolute',
 			    'margin': 'auto',
 			    'display':'none',
 			    'text-align': 'justify'
-			});
+			};
+            var cssRules = null;
+            if(typeof options.style === "object"){
+                cssRules = $.extend({},basicCssRules,options.style);
+            }else{
+                cssRules = basicCssRules;
+            }
+			$toast.css(cssRules);
 			//toast水平居中
 			$toast.css('margin-left',($(window).width()-$toast.width())/2-15+'px');
 			//toast动画--默认为淡入淡出
@@ -49,11 +73,12 @@
 			setTimeout(function(){
 				$toast.fadeOut(function(){
 					$toast.remove();
+                    if(typeof cb === "function") cb();
+                    if(typeof options.callback === "function") callback();
 				});
 			},options.speed);
 		}
-	})
-	window.toast = function(msg){
-		$.toast(msg);
-	}
-})(window,document,jQuery);
+    })
+}(jQuery))
+
+window.toast = $.toast;
