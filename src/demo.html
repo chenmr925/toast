@@ -6,6 +6,11 @@
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>A toast demo</title>
     <style>
+        [type=text] {
+            width: 100px;
+            height: 32px;
+            border: 1px solid #666;
+        }
         .btn {
             width: 80%;
             height: 42px;
@@ -22,6 +27,14 @@
 </head>
 <body>
     <div>
+        <h2>选择位置</h2>
+        <p><input type="radio" name="position" id="top" value="top" /><label for="top">top</label></p>
+        <p><input type="radio" name="position" id="middle" value="middle" /><label for="middle">middle</label></p>
+        <p><input type="radio" name="position" id="bottom" value="bottom" /><label for="bottom">bottom</label></p>
+        <h2>持续时间</h2>
+        <p><input type="text" name="speed" /><label>ms</label></p>
+        <h2>字体颜色</h2>
+        <p><input type="color" name="color" value="#ffffff" /></p>
         <p class="btn">click me to show toast</p>
     </div>
 </body>
@@ -30,7 +43,15 @@
 <script type="text/javascript">
     $(function() {
         $(".btn").on("click", function(){
-            toast("Hello world!")
+            var position = $(':checked').val(),
+            speed = $('[name="speed"]').val(),
+            color = $('[name="color"]').val();
+            toast({
+                msg: "Hello world!",
+                position: position?position:"bottom",
+                speed: speed?speed:2000,
+                color: color?color:"#fff"
+            })
         })
     })
 </script>

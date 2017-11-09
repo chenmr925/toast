@@ -8,7 +8,7 @@
         $.toast(提示信息);
         或
         $.toast({
-            background:'rgba(0,0,0,0.8)',	//背景
+            bgColor:'rgba(0,0,0,0.8)',	//背景
             color:'#fff',					//字体颜色
             position:'bottom',				//位置，取值：'bottom'(默认),'middle','top'
             speed:2000,						//显示时间ms
@@ -19,7 +19,7 @@
         */
         toast:function(option, cb){
 			var defaults = {
-				background:'rgba(0,0,0,0.8)',	//背景
+				bgColor:'rgba(0,0,0,0.8)',	//背景
 				color:'#fff',					//字体颜色
 				position:'bottom',				//位置，取值：'bottom'(默认),'middle','top'
 				speed:2000						//显示时间ms
@@ -47,14 +47,14 @@
 			//设置toast样式
 			var $toast = $('.toast');
             var basicCssRules = {
-				'background':options.background,
-				'color':options.color,
-				'top':top,
+				'background-color': options.bgColor,
+				'color': options.color,
+				'top': top,
 			    'padding': '5px 15px',
 			    'border-radius': '5px',
 			    'z-index': '10000',
 			    'max-width': '70%',
-				'position': 'absolute',
+				'position': 'fixed',
 			    'margin': 'auto',
 			    'display':'none',
 			    'text-align': 'justify'
@@ -76,7 +76,7 @@
                     if(typeof cb === "function") cb();
                     if(typeof options.callback === "function") callback();
 				});
-			},options.speed);
+			}, options.speed);
 		}
     })
 }(jQuery))
